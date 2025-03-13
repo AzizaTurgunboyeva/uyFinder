@@ -39,15 +39,15 @@ export class SellerGuard implements CanActivate {
         console.log(error);
         throw new BadRequestException(error);
       }
-      if(!payload){
-            throw new UnauthorizedException("Unauthorized user")
+      if (!payload) {
+        throw new UnauthorizedException("Unauthorized user");
       }
-      if(!(payload.is_active &&payload.id )){
-        throw new ForbiddenException("Not allowed")
+      if (!(payload.is_active && payload.id)) {
+        throw new ForbiddenException("Not allowed");
       }
-      req.seller= payload
-      return true
+      req.seller = payload;
+      return true;
     }
-    return verify(token,this.jwtService)
+    return verify(token, this.jwtService);
   }
 }

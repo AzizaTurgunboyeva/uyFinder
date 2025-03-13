@@ -23,17 +23,19 @@ export class AdminController {
   findAll() {
     return this.adminService.findAll();
   }
-  @UseGuards(JwtSelfGuard, JwtAuthGuard)
+  @UseGuards( JwtAuthGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.adminService.findOne(+id);
   }
-  @UseGuards(JwtSelfGuard, JwtAuthGuard)
+
+  @UseGuards(JwtAuthGuard,JwtSelfGuard)
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateAdminDto: UpdateAdminDto) {
     return this.adminService.update(+id, updateAdminDto);
   }
-  @UseGuards(JwtAuthGuard, JwtCreatorGuard)
+
+  @UseGuards(JwtAuthGuard, JwtSelfGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.adminService.remove(+id);
