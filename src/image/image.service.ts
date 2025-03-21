@@ -35,10 +35,12 @@ export class ImageService {
   }
 
   async createImage(createImageDto: CreateImageDto) {
+    console.log(createImageDto.homeId);
+    
     return this.prisma.image.create({
       data: {
         imageUrl: createImageDto.imageUrl,
-        homeId: createImageDto.homeId,
+        homeId:Number( createImageDto.homeId),
         isMainImage: createImageDto.isMainImage ?? false,
       },
     });

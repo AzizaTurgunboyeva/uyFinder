@@ -34,7 +34,10 @@ export class RentalListService {
   async findDistrict(id: number) {
     const one = await this.prismaService.rentalList.findUnique({
       where: { id },
-      include: { district: { select: { name: true } } },
+      include: {
+        district: { select: { name: true } },
+        nearUniversity: { select: { name: true } },
+      },
     });
     if (!one) {
       throw new NotFoundException("Bunday idli tuman  mavjud emas");

@@ -18,7 +18,7 @@ import { JwtSelfGuard } from "../guards/admin/jst-self.guard";
 @Controller("admin")
 export class AdminController {
   constructor(private readonly adminService: AdminsService) {}
-  @UseGuards(JwtAuthGuard, JwtCreatorGuard)
+  // @UseGuards(JwtAuthGuard, JwtCreatorGuard)
   @Get()
   findAll() {
     return this.adminService.findAll();

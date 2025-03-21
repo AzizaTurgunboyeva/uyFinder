@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { PrismaService } from "../prisma/prisma.service";
 import { CreateAdminDto, UpdateAdminDto } from "./dto";
 
@@ -23,9 +23,8 @@ export class AdminsService {
       const newAdmin = await this.prismaService.admin.create({
         data: { ...data, password: hashedPassword },
       });
-      
 
-      return newAdmin
+      return newAdmin;
     } catch (error) {
       console.log("createAdmin", error);
     }
@@ -43,7 +42,9 @@ export class AdminsService {
     return user;
   }
   async findadminByEmail(email: string) {
-    const admin = await this.prismaService.admin.findUnique({where:{email} });
+    const admin = await this.prismaService.admin.findUnique({
+      where: { email },
+    });
     return admin;
   }
 

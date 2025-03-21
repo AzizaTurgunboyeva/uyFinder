@@ -9,7 +9,13 @@ export class BookingController {
 
   @Post()
   create(@Body() createBookingDto: CreateBookingDto) {
-    return this.bookingService.create(createBookingDto);
+    try {
+        return this.bookingService.create(createBookingDto);
+    } catch (error) {
+      console.log("booking create error",error);
+      
+    }
+  
   }
 
   @Get()

@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -13,12 +13,12 @@ services:
 
   app:
     container_name: nestjs-app
-    build: .
-    image: azizaturgunboyeva/nestjs-app
+    build:
+      context: .
+      dockerfile: dockerfile
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgresql://postgres:password@postgres:5432/uyfinder
+    env_file:
+      - .env.prod
     ports:
       - "4000:4000"
-    command: [ "npm", "run", "start:prod" ]

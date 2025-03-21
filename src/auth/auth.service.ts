@@ -10,7 +10,7 @@ import {
 import { JwtService } from "@nestjs/jwt";
 import { Admin, Seller, User } from "@prisma/client";
 
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { Response } from "express";
 import { AdminsService } from "../admin/admin.service";
 import { CreateAdminDto } from "../admin/dto";
@@ -21,13 +21,12 @@ import { SellerService } from "../seller/seller.service";
 import { CreateSellerDto } from "../seller/dto";
 import { MailService } from "../mail/mail.service";
 
-
 @Injectable()
 export class AuthService {
   constructor(
     private readonly adminService: AdminsService,
     private readonly sellerService: SellerService,
-     private readonly mailService: MailService,
+    private readonly mailService: MailService,
 
     private readonly userService: UserService,
     private readonly jwtService: JwtService
@@ -183,7 +182,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
       userType: user.userType,
-      is_active:user.is_active
+      is_active: user.is_active,
     };
 
     const [accessToken, refreshToken] = await Promise.all([
@@ -208,14 +207,17 @@ export class AuthService {
       if (candidate) {
         throw new BadRequestException("Bunday foydalanuvchi mavjud");
       }
-      const newUser = await this.userService.create({...createUserDto,is_active:true});
+      const newUser = await this.userService.create({
+        ...createUserDto,
+        is_active: true,
+      });
       if (newUser) {
         const tokens = await this.getTokenUser(newUser);
 
         const hashed_refresh_token = await bcrypt.hash(tokens.refresh_token, 7);
         const response = {
           message: "Tabriklayman tizimga qo'shildingiz.",
-          hashToken: hashed_refresh_token
+          hashToken: hashed_refresh_token,
         };
 
         return response;
@@ -359,12 +361,12 @@ export class AuthService {
         const tokens = await this.getTokenSeller(newUser);
 
         const hashed_refresh_token = await bcrypt.hash(tokens.refresh_token, 7);
-         try {
-           await this.mailService.sendMail(newUser);
-         } catch (error) {
-           console.log(error);
-           throw new InternalServerErrorException("Xat yuborishda xatolik");
-         }
+        try {
+          await this.mailService.sendMail(newUser);
+        } catch (error) {
+          console.log(error);
+          throw new InternalServerErrorException("Xat yuborishda xatolik");
+        }
         const response = {
           message: "Tabriklayman tizimga qo'shildingiz.",
           refresh_token: hashed_refresh_token,
@@ -481,5 +483,4 @@ export class AuthService {
       console.log("refreshToken", error);
     }
   }
-
 }

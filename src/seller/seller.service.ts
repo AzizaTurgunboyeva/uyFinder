@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 import { UpdateSellerDto } from "./dto/update-seller.dto";
 import { PrismaService } from "../prisma/prisma.service";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { CreateSellerDto } from "./dto";
 import * as uuid from "uuid";
 import { MailService } from "../mail/mail.service";
@@ -46,7 +46,7 @@ export class SellerService {
   async findOne(id: number) {
     const one = await this.prismaService.seller.findUnique({ where: { id } });
     if (!one) {
-      throw new NotFoundException("BUnday sotuvchi mavjud emas");
+      throw new NotFoundException("Bunday sotuvchi mavjud emas");
     }
     return one;
   }
@@ -108,5 +108,4 @@ export class SellerService {
       seller: updatedSeller.is_active,
     };
   }
- 
 }

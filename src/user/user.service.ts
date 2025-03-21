@@ -1,14 +1,18 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { PrismaService } from "../prisma/prisma.service";
-import * as bcrypt from "bcrypt";
+import * as bcrypt from "bcryptjs";
 import { Usertype } from "@prisma/client";
 
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
-  
+
   async create(createUserDto: CreateUserDto) {
     try {
       const candidate = await this.findByUser(createUserDto.email);
@@ -75,7 +79,7 @@ export class UserService {
     return updateUser;
   }
   async remove(id: number) {
-    await this.findOne(id)
+    await this.findOne(id);
     return this.prismaService.user.delete({ where: { id } });
   }
 }

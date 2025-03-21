@@ -41,6 +41,7 @@ export class BookingService {
          where: { id },
          data: { ...updateBookingDto },
        });
+       return updated
     } catch (error) {
       console.log("updateBooking error",error);
       

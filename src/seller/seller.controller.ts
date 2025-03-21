@@ -13,7 +13,7 @@ export class SellerController {
   findAll() {
     return this.sellerService.findAll();
   }
-  @UseGuards( SellerGuard)
+  @UseGuards(SellerGuard)
   @Get(":id")
   findOne(@Param("id") id: string) {
     return this.sellerService.findOne(+id);
@@ -23,7 +23,7 @@ export class SellerController {
   update(@Param("id") id: string, @Body() updateSellerDto: UpdateSellerDto) {
     return this.sellerService.update(+id, updateSellerDto);
   }
-
+  @UseGuards(JwtAuthGuard, JwtCreatorGuard)
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.sellerService.remove(+id);
@@ -35,6 +35,4 @@ export class SellerController {
     }
     return this.sellerService.activate(link);
   }
- 
- 
 }
